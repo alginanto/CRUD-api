@@ -12,7 +12,7 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 3001;
 
-app.use('/api', userRoutes);
+// app.use('/api', userRoutes);
 
 // Middleware
 app.use(cors());    
@@ -24,9 +24,7 @@ app.use('/api', userRoutes);
 app.use(errorHandler);
 
 // Create user table if it doesn't exist
-createUserTable()
-  .then(() => console.log('User table checked/created successfully'))
-  .catch((error) => console.error('Error creating user table:', error));
+createUserTable();
 //TESTING DATABASE CONNECTION
 app.get('/', async (req, res) => {
   try {
