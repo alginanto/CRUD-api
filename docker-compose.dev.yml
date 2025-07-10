@@ -1,0 +1,55 @@
+version: '3.8'
+
+services:
+  # PostgreSQL Database Service
+  postgres:
+    image: postgres:17
+    container_name: postgre-db-dev
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: express_crud
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: apiuserPW!
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - app-network
+
+  # Express.js Application Service (Development)
+  app:
+    build: 
+      context: .
+      dockerfile: Dockerfile.dev
+    container_name: express-app-dev
+    restart: unless-stopped
+    depends_on:
+      - postgres
+    environment:
+      - NODE_ENV=development
+      - PORT=5001
+      - USER=postgres
+      - HOST=postgres
+      - DATABASE=express_crud
+      - DBPORT=5432
+      - PASSWORD=apiuserPW!
+    ports:
+      - "5001:5001"
+    volumes:
+      # Mount source code for hot reload
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+    networks:
+      - app-network
+    # Keep container running even if app crashes
+    tty: true
+    stdin_open: true
+
+volumes:
+  postgres_data:
+    driver: local
+
+networks:
+  app-network:
+    driver: bridge

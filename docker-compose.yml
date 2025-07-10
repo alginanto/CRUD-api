@@ -1,0 +1,48 @@
+version: '3.8'
+
+services:
+  # PostgreSQL Database Service
+  postgres:
+    image: postgres:17
+    container_name: postgre-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: express_crud
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: apiuserPW!
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - app-network
+
+  # Express.js Application Service
+  app:
+    build: .
+    container_name: express-app
+    restart: unless-stopped
+    depends_on:
+      - postgres
+    environment:
+      - PORT=5001
+      - USER=postgres
+      - HOST=postgres
+      - DATABASE=express_crud
+      - DBPORT=5432
+      - PASSWORD=apiuserPW!
+    ports:
+      - "5001:5001"
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+    networks:
+      - app-network
+
+volumes:
+  postgres_data:
+    driver: local
+
+networks:
+  app-network:
+    driver: bridge
