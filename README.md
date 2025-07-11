@@ -23,7 +23,7 @@ Before running this project, make sure you have the following installed:
 - [PostgreSQL](https://www.postgresql.org/) (if running locally without Docker)
 
 ## 🛠️ Project Structure
-
+```bash
 crud-api/
 ├── src/
 │   ├── config/
@@ -46,7 +46,7 @@ crud-api/
 ├── Dockerfile.dev
 ├── package.json
 └── README.md
-
+```
 ## 🐳 Docker Quick Start
 
 ### Development Environment
