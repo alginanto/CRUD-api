@@ -19,7 +19,7 @@ export const createUser= async (req, res,next) => {
     const newUser = await createUserService(name, email);
     handleResponse(res, 201, newUser, 'User created successfully');
   } catch (error) {
-    handleResponse(res, 500, null, 'Error creating user');
+    handleResponse(res, 500, null, error.detail || error.message || 'Error creating user');
     next(error);
   }
 }
@@ -35,7 +35,9 @@ export const getAllUsers= async (req, res,next) => {
 }
 
 export const getUserById= async (req, res,next) => {
+    console.log('getUserById called with params------------------------------------------------------------:', req.params);
   const { id } = req.params;
+  console.log('getUserById called with id:------------------------------------------------------------------------', id);
   try {
     const user = await getUserByIdService(id);
     if(!user) {

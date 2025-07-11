@@ -31,6 +31,7 @@ services:
       - DATABASE=express_crud
       - DBPORT=5432
       - PASSWORD=apiuserPW!
+      - NODE_ENV=development  //change to production for production environment
     ports:
       - "5001:5001"
     volumes:
@@ -38,6 +39,8 @@ services:
       - /usr/src/app/node_modules
     networks:
       - app-network
+    stdin_open: true
+    tty: true
 
 volumes:
   postgres_data:

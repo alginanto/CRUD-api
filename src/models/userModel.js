@@ -10,13 +10,14 @@ export const getAllUserService=async () => {
         throw error;
     }
 }
-export const getUserByIdService=async () => {
+export const getUserByIdService=async (id) => {
     const query = 'SELECT * FROM users WHERE id = $1';
     try {
         const result = await pool.query(query, [id]);
         return result.rows[0];
     } catch (error) {
         throw error;
+        
     }
 }
 export const createUserService=async (name,email) => {
